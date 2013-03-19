@@ -1,25 +1,16 @@
 Phapp
 =====
 
-A simple but scalable web application framework.
+A simple but scalable object-oriented web application framework.
 
 Hello World
 -----------
 
-Put that into index.php:
+A simple example:
 
 	<?php
 
 	require_once 'Phapp.php';
-	require_once 'Hello.php';
-
-	$app = new Phapp();
-
-	echo $app->run( 'Hello' );
-
-Then place this into Hello.php:
-
-	<?php
 
 	class Hello extends PhappView
 	{
@@ -29,21 +20,20 @@ Then place this into Hello.php:
 		}
 	}
 
-Now upload those two files along with Phapp.php into your web root, fire up
-your browser and request index.php.
+	$app = new Phapp();
 
-See samples/ for more examples.
+	echo $app->process( 'Hello' );
 
-Principle
----------
+Find this and more complex examples in the samples folder.
 
-Phapp is very minimal and very small. Just have a look at Phapp.php.
+How it works
+------------
 
-It works by defining a set of view objects that get processed by the main
+The idea is to define a set of view objects that get processed by the main
 application object.
 
-Every view object should inherit from PhappView which provides two main
-methods:
+Every view object inherits from PhappView which has two main methods you
+should overwrite. The first is request():
 
 	public function request()
 	{
@@ -53,31 +43,68 @@ methods:
 		return null;
 	}
 
-Handle the request in here and, if required, return the name of another view
-that should take over.
+The purpose of this method is to handle the request and, if required, return
+a name of another view that should take over.
 
-The first view that returns null will get its response() method called to
+The first view that returns _null_ will get its response() method called to
 respond to the request:
 
 	public function response()
 	{
-		return "<h1>Hello</h1>";
+		return '<h1>Hello</h1>';
 	}
 
-Put all output code into that method and return a string containing a html
-snippet.
+Here's a little graph that shows how everything works together:
+
+	            +----------------------------+
+	            | Name of a PhappView object | <--------------------+
+	            +----------------------------+                      |
+	                |                                               |
+	                |                                               |
+	+-- Phapp ------|---------+                                     |
+	|               |         |                                     |
+	|               V         |                                     |
+	| +------------------------+                                    |
+	| | Construct given object | ----> +-- PhappView ---------+     |
+	| +------------------------+       |                      |     |
+	|               |         |        |    Object derived    |     |
+	|               V         |        |    from PhappView    |     |
+	| +------------------------+       |                      |     |
+	| |    Call request() on   | ----> +-- request() ---------+     |
+	| |       that object      |       |                      |     |
+	| +------------------------+       |      Determine       |     |
+	|                         |        |       if I can       |     |
+	|                         |   yes  |        handle        |  no |
+	| +------------------------+ <---- |     this request     | ----+
+	| |   Call response() on   |       |                      |
+	| |       first object     | ----> +-- response() --------+
+	| |      returning null    |       |                      |
+	| +------------------------+ <---- |  Generate output for |
+	|               |         |   html |     this request     |
+	+---------------|---------+        |                      |
+	                |                  +----------------------+
+	                V
+	           +----------+
+	           | Web page |
+	           +----------+
+
+Phapp is very minimal and very small.
+Just have a look at Phapp.php to fully understand its concept.
 
 Subclass to extend
 ------------------
 
-You may subclass Phapp and PhappView to equip them with methods for data
-base access, translations and so on.
+Subclass Phapp and PhappView to add methods for data base access,
+internationalization and stuff like that.
+
+It's a good idea to set up a base view which contains common methods
+and derive your views from that.
 
 PDO support
 -----------
 
-If you're using PDOs, you may inherit from PhappPDOView and call query()
-like this:
+If you're using [PDO](http://php.net/manual/en/book.pdo.php)'s,
+you may inherit your views from PhappPDOView and call query() like this:
 
 	if( ($result = $this->query(
 		"SELECT
