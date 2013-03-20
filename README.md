@@ -56,37 +56,39 @@ respond to the request:
 
 Here's a little graph that shows how everything works together:
 
-	            +----------------------------+
-	            | Name of a PhappView object | <--------------------+
-	            +----------------------------+                      |
-	                |                                               |
-	                |                                               |
-	+-- Phapp ------|---------+                                     |
-	|               |         |                                     |
-	|               V         |                                     |
-	| +------------------------+                                    |
-	| | Construct given object | ----> +-- PhappView ---------+     |
-	| +------------------------+       |                      |     |
-	|               |         |        |    Object derived    |     |
-	|               V         |        |    from PhappView    |     |
-	| +------------------------+       |                      |     |
-	| |    Call request() on   | ----> +-- request() ---------+     |
-	| |       that object      |       |                      |     |
-	| +------------------------+       |      Determine       |     |
-	|                         |        |       if I can       |     |
-	|                         |   yes  |        handle        |  no |
-	| +------------------------+ <---- |     this request     | ----+
-	| |   Call response() on   |       |                      |
-	| |       first object     | ----> +-- response() --------+
-	| |      returning null    |       |                      |
-	| +------------------------+ <---- |  Generate output for |
-	|               |         |   html |     this request     |
-	+---------------|---------+        |                      |
-	                |                  +----------------------+
-	                V
-	           +----------+
-	           | Web page |
-	           +----------+
+<pre>
+                +----------------------------+
+                | Name of a PhappView object | <-------------------------+
+                +----------------------------+                           |
+                    |                                                    |
+                    |                                                    |
+    +-- Phapp ------|-------+                                            |
+    |               |       |                                            |
+    |               V       |                                            |
+    | +------------------------+           +-- PhappView ---------+      |
+    | |    Construct object    |  ------>  |                      |      |
+    | +------------------------+           |    Object derived    |      |
+    |               |       |              |    from PhappView    |      |
+    |               V       |              |                      |      |
+    | +------------------------+           +-- request() ---------+      |
+    | |    Call request() on   |           |                      |      |
+    | |       that object      |  ------>  |     Determine if     |      |
+    | +------------------------+           |      this object     |      |
+    |                       |              |      can handle      |      |
+    | +------------------------+    yes?   |     this request     |  no? |
+    | |   request() returned   |  <------  |                      | -----+
+    | |          null          |           +-- response() --------+
+    | |   so call response()   |  ------>  |                      |
+    | |    to get the output   |  <------  |  Generate output for |
+    | +------------------------+    html   |     this request     |
+    |               |       |              |                      |
+    +---------------|-------+              +----------------------+
+                    |
+                    V
+               +----------+
+               | Web page |
+               +----------+
+</pre>
 
 Phapp is very minimal and very small.
 Just have a look at Phapp.php to fully understand its concept.
