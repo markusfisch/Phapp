@@ -56,7 +56,6 @@ respond to the request:
 
 Here's a little graph that shows how everything works together:
 
-<pre>
                 +----------------------------+
                 | Name of a PhappView object | <-------------------------+
                 +----------------------------+                           |
@@ -88,7 +87,6 @@ Here's a little graph that shows how everything works together:
                +----------+
                | Web page |
                +----------+
-</pre>
 
 Phapp is very minimal and very small.
 Just have a look at Phapp.php to fully understand its concept.
