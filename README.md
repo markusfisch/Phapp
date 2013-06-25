@@ -24,7 +24,7 @@ A simple example:
 
 	echo $app->process( 'Hello' );
 
-Find this and more complex examples in the samples folder.
+Find this and more complex examples in the samples branch.
 
 How it works
 ------------
