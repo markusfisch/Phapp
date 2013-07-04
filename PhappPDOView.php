@@ -13,12 +13,19 @@ class PhappPDOView extends PhappView
 	 */
 	protected function query( $q )
 	{
-		if( !$this->app->db &&
-			!($this->app->db = new PDO(
-				DB_HOST,
-				DB_USER,
-				DB_PASS )) )
-			return null;
+		try
+		{
+			if( !$this->app->db &&
+				!($this->app->db = new PDO(
+					PDO_DSN,
+					PDO_USER,
+					PDO_PASS )) )
+				return null;
+		}
+		catch( PDOException $e )
+		{
+			exit( 'ERROR: ' . $e->getMessage() . '<br/>' );
+		}
 
 		$a = func_get_args();
 		array_shift( $a );
