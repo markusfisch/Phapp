@@ -11,7 +11,7 @@ class PhappPDOView extends PhappView
 	 * @param $q - SQL query
 	 * @param ... - arguments
 	 */
-	protected function query( $q )
+	public function query( $q )
 	{
 		try
 		{
