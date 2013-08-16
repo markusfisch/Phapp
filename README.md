@@ -24,7 +24,8 @@ A simple example:
 
 	echo $app->process( 'Hello' );
 
-Find this and more complex examples in the samples branch.
+Find this and more complex examples in the
+[samples branch](https://github.com/markusfisch/Phapp/tree/samples).
 
 How it works
 ------------
@@ -120,3 +121,10 @@ you may inherit your views from PhappPDOView and call query() like this:
 			$contents .= "<li>{$row['first']} {$row['last']}</li>";
 		}
 	}
+
+Stay up to date
+---------------
+
+It's probably best to add Phapp as submodule or
+[subtree](https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/)
+to your project's repository to be able to update fast and easily.
