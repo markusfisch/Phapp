@@ -43,7 +43,7 @@ class Phapp
  */
 class PhappView
 {
-	private $app = null;
+	protected $app = null;
 
 	/**
 	 * Constructor
